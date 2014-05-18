@@ -390,7 +390,7 @@ dev.off()
 
 
 # Are there differences in activity patterns between weekdays and weekends?
-
+ 
 
 I'm going to create a new variable in dataset called 'dateWeek' and put the value of day of the week (weekdays function)
 
@@ -420,7 +420,10 @@ weekdayData <- weekDaySplit[["Weekday"]]
 ```
 
 
-..and now i'm going to create an other split in both datasets by Interval
+
+## First Method: basic system graph
+
+i'm going to create an other split in both datasets by Interval
 
 
 ```r
@@ -493,6 +496,89 @@ dev.off()
 ## pdf 
 ##   2
 ```
+
+
+
+## Second Method: lattice system graph
+
+
+
+I'm going to create a DataFrame with the mean step group by Interval and factor Weekday or Weekend:
+
+
+```r
+
+weInterval <- unique(sort(weekendData$interval))
+splitweekendDataIntervals <- split(weekendData$steps, weInterval)
+meanSplitweekendDataIntervals <- as.data.frame(sapply(splitweekendDataIntervals, 
+    mean))
+names(meanSplitweekendDataIntervals) <- "meanSteps"
+wEMatrixValues <- as.data.frame(cbind(meanSplitweekendDataIntervals$meanSteps, 
+    weInterval, "Weekend"))
+names(wEMatrixValues) <- c("meanSteps", "interval", "weekdate")
+
+wdInterval <- unique(sort(weekdayData$interval))
+splitweekdayDataIntervals <- split(weekdayData$steps, wdInterval)
+meanSplitweekdayDataIntervals <- as.data.frame(sapply(splitweekdayDataIntervals, 
+    mean))
+names(meanSplitweekdayDataIntervals) <- "meanSteps"
+wDMatrixValues <- as.data.frame(cbind(meanSplitweekdayDataIntervals$meanSteps, 
+    wdInterval, "Weekday"))
+names(wDMatrixValues) <- c("meanSteps", "interval", "weekdate")
+
+meanStepMatrix <- as.data.frame(rbind(wDMatrixValues, wEMatrixValues))
+meanStepMatrix$meanSteps <- as.numeric(as.character(meanStepMatrix$meanSteps))
+meanStepMatrix$interval <- as.numeric(as.character(meanStepMatrix$interval))
+```
+
+
+This is the final dataframe:
+
+```r
+head(meanStepMatrix)
+```
+
+```
+##   meanSteps interval weekdate
+## 1    2.0806        0  Weekday
+## 2    0.4583        5  Weekday
+## 3    0.2139       10  Weekday
+## 4    0.2361       15  Weekday
+## 5    0.1472       20  Weekday
+## 6    1.3694       25  Weekday
+```
+
+
+..and now i'm going to print it with 'lattice graph system':
+ - First create and print it
+
+```r
+library("lattice")
+p <- xyplot(meanStepMatrix$meanSteps ~ meanStepMatrix$interval | meanStepMatrix$weekdate, 
+    meanStepMatrix, layout = c(1, 2), type = "l", xlab = "Interval", ylab = "Number of steps")
+print(p)
+```
+
+![plot of chunk unnamed-chunk-43](figure/unnamed-chunk-43.png) 
+
+ - and now safe it:
+
+```r
+png(filename = "figures/plot8.png", width = 480, height = 480, units = "px")
+print(p)
+dev.off()
+```
+
+```
+## pdf 
+##   2
+```
+
+
+
+
+
+
 
 
 
