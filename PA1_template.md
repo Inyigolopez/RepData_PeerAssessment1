@@ -389,4 +389,121 @@ dev.off()
 ```
 
 
+# Are there differences in activity patterns between weekdays and weekends?
+
+
+I'm going to create a new variable in dataset called 'dateWeek' and put the value of day of the week (weekdays function)
+
+```r
+simStepData$dateWeek <- weekdays(simStepData$date)
+```
+
+..and now i'm going to compare if dateWeek is 'saturday' or 'sunday' ( 'sábado' ó 'domingo' in my Spanish version of OS) and put the correct factor ('Weekend or Weekday') depend on it.
+
+```r
+for (i in 1:nrow(simStepData)) {
+    if (simStepData[i, 4] == "domingo" | simStepData[i, 4] == "sábado") {
+        simStepData[i, 4] <- "Weekend"
+    } else {
+        simStepData[i, 4] <- "Weekday"
+    }
+}
+```
+
+
+Now i'm going to split the dataset by dateWeek and then separate inte two diferent datasets:
+
+```r
+weekDaySplit <- split(simStepData, simStepData$dateWeek)
+weekendData <- weekDaySplit[["Weekend"]]
+weekdayData <- weekDaySplit[["Weekday"]]
+```
+
+
+..and now i'm going to create an other split in both datasets by Interval
+
+
+```r
+allweekendIntervals <- sort(unique(weekendData$interval))
+splitweekendDataByInterval <- split(weekendData$steps, weekendData$interval)
+
+allweekdayIntervals <- sort(unique(weekdayData$interval))
+splitweekdayDataByInterval <- split(weekdayData$steps, weekdayData$interval)
+```
+
+
+..and calculate the mean of steps for each interval..
+
+```r
+meanWeekendStepByInterval <- as.data.frame(sapply(splitweekendDataByInterval, 
+    mean))
+names(meanWeekendStepByInterval) <- c("Steps")
+
+meanWeekdayStepByInterval <- as.data.frame(sapply(splitweekdayDataByInterval, 
+    mean))
+names(meanWeekdayStepByInterval) <- c("Steps")
+```
+
+
+Drawing the solution: 
+
+Weekend
+
+```r
+plot(allIntervals, meanWeekendStepByInterval$Steps, type = "l", col = "blue", 
+    main = "Weekend. steps mean", xlab = "5-interval", ylab = "Mean of steps")
+```
+
+![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-37.png) 
+
+
+
+```r
+png(filename = "figures/plot6.png", width = 480, height = 480, units = "px")
+plot(allIntervals, meanWeekendStepByInterval$Steps, type = "l", col = "blue", 
+    main = "Weekend. steps mean", xlab = "5-interval", ylab = "Mean of steps")
+dev.off()
+```
+
+```
+## pdf 
+##   2
+```
+
+
+Weekday
+
+```r
+plot(allIntervals, meanWeekdayStepByInterval$Steps, type = "l", col = "blue", 
+    main = "Weekday. steps mean", xlab = "5-interval", ylab = "Mean of steps")
+```
+
+![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-39.png) 
+
+
+
+```r
+png(filename = "figures/plot7.png", width = 480, height = 480, units = "px")
+plot(allIntervals, meanWeekdayStepByInterval$Steps, type = "l", col = "blue", 
+    main = "Weekend. steps mean", xlab = "5-interval", ylab = "Mean of steps")
+dev.off()
+```
+
+```
+## pdf 
+##   2
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
