@@ -132,40 +132,31 @@ median(sumStepByDate$Steps)
 ```
 
 
-I'm going to create a file graphic device:
-
-```r
-png(filename = "figures/plot1.png", width = 480, height = 480, units = "px")
-```
-
-..and to generate a histogram with the frecuency of total sum of steps by day: 
+I'm going generate a histogram with the frecuency of total sum of steps by day: 
 
 ```r
 hist(sumStepByDate$Steps, main = "Total steps by day frecuency", xlab = "Number of steps by day", 
     ylab = "Number of days", col = "red", breaks = nrow(sumStepByDate))
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
 
-Save the file into the path '/figures/
+..and save it into '/figures/' path:
 
 ```r
+png(filename = "figures/plot1.png", width = 480, height = 480, units = "px")
+hist(sumStepByDate$Steps, main = "Total steps by day frecuency", xlab = "Number of steps by day", 
+    ylab = "Number of days", col = "red", breaks = nrow(sumStepByDate))
 dev.off()
 ```
 
 ```
-## quartz_off_screen 
-##                 3
+## pdf 
+##   2
 ```
 
 
 Now, I'm going to create a file with the sum of steps day by day, the mean and the median of all days in dataset:
-
-
-```r
-png(filename = "figures/plot2.png", width = 480, height = 480, units = "px")
-```
-
 
 
 ```r
@@ -177,17 +168,24 @@ lines(allDays, rep(mean(sumStepByDate$Steps), length(allDays)), type = "l",
 legend("topright", c("Mean", "Median"), lty = 1, col = c("red", "blue"), cex = 0.95)
 ```
 
-![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
 
 
 
 ```r
+png(filename = "figures/plot2.png", width = 480, height = 480, units = "px")
+plot(allDays, sumStepByDate$Steps, type = "l", ylab = "Sum of step", xlab = "Day")
+lines(allDays, rep(median(sumStepByDate$Steps), length(allDays)), type = "l", 
+    col = "blue")
+lines(allDays, rep(mean(sumStepByDate$Steps), length(allDays)), type = "l", 
+    col = "red")
+legend("topright", c("Mean", "Median"), lty = 1, col = c("red", "blue"), cex = 0.95)
 dev.off()
 ```
 
 ```
-## quartz_off_screen 
-##                 3
+## pdf 
+##   2
 ```
 
 
@@ -235,12 +233,6 @@ names(meanStepByInterval) <- c("Steps")
 Drawing the solution:
 
 ```r
-png(filename = "figures/plot3.png", width = 480, height = 480, units = "px")
-```
-
-
-
-```r
 plot(allIntervals, meanStepByInterval$Steps, type = "l", main = "5-Interval step mean", 
     xlab = "5-interval", ylab = "Mean of steps")
 lines(allIntervals, rep(max(meanStepByInterval$Steps), length(allIntervals)), 
@@ -248,17 +240,23 @@ lines(allIntervals, rep(max(meanStepByInterval$Steps), length(allIntervals)),
 legend("topright", c("Max"), lty = 1, col = c("red"), cex = 0.95)
 ```
 
-![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23.png) 
+![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20.png) 
 
 
 
 ```r
+png(filename = "figures/plot3.png", width = 480, height = 480, units = "px")
+plot(allIntervals, meanStepByInterval$Steps, type = "l", main = "5-Interval step mean", 
+    xlab = "5-interval", ylab = "Mean of steps")
+lines(allIntervals, rep(max(meanStepByInterval$Steps), length(allIntervals)), 
+    type = "l", col = "red")
+legend("topright", c("Max"), lty = 1, col = c("red"), cex = 0.95)
 dev.off()
 ```
 
 ```
-## quartz_off_screen 
-##                 3
+## pdf 
+##   2
 ```
 
        
@@ -330,27 +328,24 @@ We can see that both the mean and the median decreased to fairly allocate data N
 Drawing the solution:
 
 ```r
-png(filename = "figures/plot4.png", width = 480, height = 480, units = "px")
-```
-
-
-
-```r
 hist(sumSimulaStepByDate$Steps, main = "Total steps by day frecuency", xlab = "Number of steps by day", 
     ylab = "Number of days", col = "red", breaks = nrow(sumSimulaStepByDate))
 ```
 
-![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-31.png) 
+![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27.png) 
 
 
 
 ```r
+png(filename = "figures/plot4.png", width = 480, height = 480, units = "px")
+hist(sumSimulaStepByDate$Steps, main = "Total steps by day frecuency", xlab = "Number of steps by day", 
+    ylab = "Number of days", col = "red", breaks = nrow(sumSimulaStepByDate))
 dev.off()
 ```
 
 ```
-## quartz_off_screen 
-##                 3
+## pdf 
+##   2
 ```
 
  
@@ -358,12 +353,6 @@ dev.off()
 
 ```r
 allSimDays <- as.Date(sort(unique(simStepData$date)), format = "%Y-%m-%d")
-```
-
-
-
-```r
-png(filename = "~/figures/plot5.png", width = 480, height = 480, units = "px")
 ```
 
 
@@ -378,19 +367,26 @@ lines(allSimDays, rep(mean(sumSimulaStepByDate$Steps), length(allSimDays)),
 legend("topright", c("Mean", "Median"), lty = 1, col = c("red", "blue"), cex = 0.95)
 ```
 
-![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35.png) 
+![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-30.png) 
 
 
 
 ```r
+png(filename = "figures/plot5.png", width = 480, height = 480, units = "px")
+plot(allSimDays, sumSimulaStepByDate$Steps, type = "l", ylab = "Sum of step", 
+    xlab = "Day")
+lines(allSimDays, rep(median(sumSimulaStepByDate$Steps), length(allSimDays)), 
+    type = "l", col = "blue")
+lines(allSimDays, rep(mean(sumSimulaStepByDate$Steps), length(allSimDays)), 
+    type = "l", col = "red")
+legend("topright", c("Mean", "Median"), lty = 1, col = c("red", "blue"), cex = 0.95)
 dev.off()
 ```
 
 ```
-## quartz_off_screen 
-##                 3
+## pdf 
+##   2
 ```
-
 
 
 

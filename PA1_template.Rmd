@@ -68,34 +68,32 @@ median(sumStepByDate$Steps)
 
 ```
 
-I'm going to create a file graphic device:
-```{r}
-png(filename='figures/plot1.png', width=480, height=480, units="px")
-```
-..and to generate a histogram with the frecuency of total sum of steps by day: 
+I'm going generate a histogram with the frecuency of total sum of steps by day: 
 ```{r}
 hist(sumStepByDate$Steps, main="Total steps by day frecuency", xlab="Number of steps by day", ylab="Number of days", col="red", breaks = nrow(sumStepByDate))
 ```
-Save the file into the path '/figures/
+..and save it into '/figures/' path:
 ```{r}
+png(filename='figures/plot1.png', width=480, height=480, units="px")
+hist(sumStepByDate$Steps, main="Total steps by day frecuency", xlab="Number of steps by day", ylab="Number of days", col="red", breaks = nrow(sumStepByDate))
 dev.off()
 ```
 
 Now, I'm going to create a file with the sum of steps day by day, the mean and the median of all days in dataset:
 
 ```{r}
-png(filename='figures/plot2.png', width=480, height=480, units="px")
-```
-
-```{r}
 plot( allDays, sumStepByDate$Steps, type="l", ylab="Sum of step", xlab="Day")
 lines(allDays, rep(median(sumStepByDate$Steps), length(allDays)), type="l", col="blue")
 lines(allDays, rep(mean(sumStepByDate$Steps), length(allDays)), type="l", col="red")
 legend("topright", c("Mean", "Median"), lty=1, col=c( "red", "blue"), cex=0.95)
-
 ```
 
 ```{r}
+png(filename='figures/plot2.png', width=480, height=480, units="px")
+plot( allDays, sumStepByDate$Steps, type="l", ylab="Sum of step", xlab="Day")
+lines(allDays, rep(median(sumStepByDate$Steps), length(allDays)), type="l", col="blue")
+lines(allDays, rep(mean(sumStepByDate$Steps), length(allDays)), type="l", col="red")
+legend("topright", c("Mean", "Median"), lty=1, col=c( "red", "blue"), cex=0.95)
 dev.off()
 ```
 
@@ -126,17 +124,17 @@ names(meanStepByInterval) <- c("Steps")
 
 Drawing the solution:
 ```{r}
-png(filename='figures/plot3.png', width=480, height=480, units="px")
-```
-
-```{r}
 plot( allIntervals, meanStepByInterval$Steps, type="l", main="5-Interval step mean", xlab="5-interval", ylab="Mean of steps")
 lines(allIntervals, rep( max(meanStepByInterval$Steps), length(allIntervals)), type="l", col="red")
 legend("topright", c("Max"), lty=1, col=c( "red"), cex=0.95)
 ```
 
 ```{r}
-dev.off()  
+png(filename='figures/plot3.png', width=480, height=480, units="px")
+plot( allIntervals, meanStepByInterval$Steps, type="l", main="5-Interval step mean", xlab="5-interval", ylab="Mean of steps")
+lines(allIntervals, rep( max(meanStepByInterval$Steps), length(allIntervals)), type="l", col="red")
+legend("topright", c("Max"), lty=1, col=c( "red"), cex=0.95)
+dev.off()
 ```
        
 Maxim mean of step in an <b>835</b> 5-minutes interval: 
@@ -181,15 +179,13 @@ We can see that both the mean and the median decreased to fairly allocate data N
 
 Drawing the solution:
 ```{r}
-png(filename='figures/plot4.png', width=480, height=480, units="px")
-```
-
-```{r}
 hist(sumSimulaStepByDate$Steps, main="Total steps by day frecuency", xlab="Number of steps by day", ylab="Number of days", col="red", breaks = nrow(sumSimulaStepByDate))
 ```
 
 ```{r}
-dev.off()  
+png(filename='figures/plot4.png', width=480, height=480, units="px")
+hist(sumSimulaStepByDate$Steps, main="Total steps by day frecuency", xlab="Number of steps by day", ylab="Number of days", col="red", breaks = nrow(sumSimulaStepByDate))
+dev.off()
 ```
  
  
@@ -198,20 +194,19 @@ allSimDays <- as.Date(sort(unique(simStepData$date)), format = "%Y-%m-%d")
 ```
 
 ```{r}
-png(filename='~/figures/plot5.png', width=480, height=480, units="px")
-```
-
-```{r}
 plot( allSimDays, sumSimulaStepByDate$Steps, type="l",ylab="Sum of step", xlab="Day")
 lines(allSimDays, rep(median(sumSimulaStepByDate$Steps), length(allSimDays)), type="l", col="blue")
 lines(allSimDays, rep(mean(sumSimulaStepByDate$Steps), length(allSimDays)), type="l", col="red")
 legend("topright", c("Mean", "Median"), lty=1, col=c( "red", "blue"), cex=0.95)
-
 ```
 
 ```{r}
+png(filename='figures/plot5.png', width=480, height=480, units="px")
+plot( allSimDays, sumSimulaStepByDate$Steps, type="l",ylab="Sum of step", xlab="Day")
+lines(allSimDays, rep(median(sumSimulaStepByDate$Steps), length(allSimDays)), type="l", col="blue")
+lines(allSimDays, rep(mean(sumSimulaStepByDate$Steps), length(allSimDays)), type="l", col="red")
+legend("topright", c("Mean", "Median"), lty=1, col=c( "red", "blue"), cex=0.95)
 dev.off()
 ```
-
 
 
