@@ -313,7 +313,7 @@ This is the final dataframe:
 head(meanStepMatrix)
 ```
 
-..and now i'm going to print it with 'lattice graph system':
+...and now i'm going to print it with 'lattice graph system':
  - First create and print it
 ```{r}
 library("lattice")
@@ -322,9 +322,10 @@ print(p)
 ```
  - and now safe it:
 ```{r}
-png(filename='figures/plot8.png', width=480, height=480, units="px")
+png(filename = 'figures/plot8.png', width=480, height=480, units="px")
 print(p)
 dev.off()
+
 ```
 
 

@@ -549,7 +549,7 @@ head(meanStepMatrix)
 ```
 
 
-..and now i'm going to print it with 'lattice graph system':
+...and now i'm going to print it with 'lattice graph system':
  - First create and print it
 
 ```r
